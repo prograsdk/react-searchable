@@ -18,7 +18,7 @@ interface IState<T> {
   value: string;
 }
 
-class Searchable<T> extends Component<IProps<T>, IState<T>> {
+export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
   public state: IState<T> = {
     items: this.props.items,
     value: this.props.initialValue || '',
@@ -43,5 +43,3 @@ class Searchable<T> extends Component<IProps<T>, IState<T>> {
     return this.props.children({items, value, handleChange: this.handleChange});
   }
 }
-
-export default Searchable;
