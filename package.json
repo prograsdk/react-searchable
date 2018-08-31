@@ -1,0 +1,24 @@
+{
+  "name": "react-searchable",
+  "version": "0.1.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.js",
+  "repository": "https://github.com/prograsdk/react-searchable",
+  "author": "Emil Bækdahl <emilsbaekdahl@gmail.com>",
+  "license": "MIT",
+  "peerDependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "devDependencies": {
+    "@types/react": "^16.4.12",
+    "prettier": "^1.14.2",
+    "tslint": "^5.11.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.0.1"
+  },
+  "scripts": {
+    "build": "./node_modules/typescript/bin/tsc",
+    "lint": "./node_modules/tslint/bin/tslint -c ./tslint.json 'src/**/*.ts'"
+  }
+}
