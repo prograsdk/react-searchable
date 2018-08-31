@@ -4,7 +4,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.js",
   "repository": "https://github.com/prograsdk/react-searchable",
-  "author": "Emil Bækdahl <emil@progras.dk>",
+  "author": "Emil Bækdahl <emilsbaekdahl@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
     "react": "^16.4.2",
