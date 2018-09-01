@@ -24,21 +24,33 @@
     "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",
     "tslint-react": "^3.6.0",
+    "typedoc": "^0.12.0",
     "typescript": "^3.0.1"
   },
   "scripts": {
     "build": "./node_modules/typescript/bin/tsc",
     "lint": "./node_modules/tslint/bin/tslint -c ./tslint.json 'src/**/*.ts'",
-    "test": "./node_modules/jest/bin/jest.js"
+    "test": "./node_modules/jest/bin/jest.js",
+    "docs": "./node_modules/typedoc/bin/typedoc --out ./docs/ --exclude '**/__tests__/*' ./src/"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/setupTest.js",
     "transform": {
       "\\.(ts|tsx)$": "ts-jest"
     },
-    "collectCoverageFrom": ["src/**/*.{ts,tsx}", "!**/index.ts"],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!**/index.ts"
+    ],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
   "dependencies": {
     "lodash.debounce": "^4.0.8"
