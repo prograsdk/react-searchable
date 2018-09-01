@@ -3,11 +3,13 @@ import {ChangeEvent, Component, ReactNode} from 'react';
 
 type HandleChange = (event: ChangeEvent<HTMLInputElement>) => void;
 
+type Predicate<T> = (item: T, value: string) => boolean;
+
 export interface IProps<T> {
   debounceDuration: number;
   initialValue: string;
   items: T[];
-  predicate(item: T, value: string): boolean;
+  predicate: Predicate<T>;
   children(params: {
     items: T[];
     handleChange: HandleChange;
@@ -26,13 +28,25 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
     initialValue: '',
   };
 
+  /**
+   * Filters an array of items based on a search value and a filtering predicate.
+   *
+   * @param items - The array of items to be filtered.
+   * @param value - A search string to be passed to the predicate.
+   * @param predicate - A filtering predicate based on an item and the search value.
+   * @returns A filtered array of items.
+   */
+  public static filter<T>(items: T[], value: string, predicate: Predicate<T>) {
+    return items.filter((item: T) => predicate(item, value));
+  }
+
   constructor(props: IProps<T>) {
     super(props);
 
     const { initialValue: value, predicate, items, debounceDuration } = props;
 
     this.state = {
-      items: value !== '' ? this.filter(items, value) : items,
+      items: value !== '' ? Searchable.filter<T>(items, value, predicate) : items,
       value,
     };
 
@@ -40,12 +54,12 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
   }
 
   public filterAndSetState(items: T[], value: string): void {
+    const { predicate } = this.props;
+
     this.setState({
-      items: value !== '' ? this.filter(items, value) : items,
+      items: value !== '' ? Searchable.filter<T>(items, value, predicate) : items,
     });
   }
-
-  public filter = (items: T[], value: string): T[] => items.filter((item) => this.props.predicate(item, value));
 
   public handleChange: HandleChange = ({target: {value}}) =>
     this.setState({value})
