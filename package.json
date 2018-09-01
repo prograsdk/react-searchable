@@ -11,14 +11,36 @@
     "react-dom": "^16.4.2"
   },
   "devDependencies": {
+    "@types/enzyme": "^3.1.13",
+    "@types/jest": "^23.3.1",
+    "@types/lodash.debounce": "^4.0.4",
     "@types/react": "^16.4.12",
+    "enzyme": "^3.5.0",
+    "enzyme-adapter-react-16": "^1.3.1",
+    "jest": "^23.5.0",
     "prettier": "^1.14.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",
     "tslint-react": "^3.6.0",
     "typescript": "^3.0.1"
   },
   "scripts": {
     "build": "./node_modules/typescript/bin/tsc",
-    "lint": "./node_modules/tslint/bin/tslint -c ./tslint.json 'src/**/*.ts'"
+    "lint": "./node_modules/tslint/bin/tslint -c ./tslint.json 'src/**/*.ts'",
+    "test": "./node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/setupTest.js",
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "collectCoverageFrom": ["src/**/*.{ts,tsx}", "!**/index.ts"],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+  },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8"
   }
 }

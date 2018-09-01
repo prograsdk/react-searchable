@@ -7,8 +7,9 @@
     "outDir": "./lib",
     "strict": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": ["node_modules", "lib"],
+  "exclude": ["node_modules", "lib", "**/__tests__/*"],
   "include": ["src"]
 }
