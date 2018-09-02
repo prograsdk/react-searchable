@@ -67,6 +67,18 @@ describe('<Searchable />', () => {
     expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
   });
 
+  it('does not call Searchable.filter if value is empty', () => {
+    const {wrapper} = setup();
+
+    // Mock Searchable.filter
+    const filter = jest.fn();
+    Searchable.filter = filter;
+
+    wrapper.setState({ value: '' });
+
+    expect(filter).not.toHaveBeenCalled();
+  });
+
   describe('handleChange', () => {
     it('sets state', () => {
       const {wrapper} = setup();
