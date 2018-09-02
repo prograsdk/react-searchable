@@ -1,4 +1,5 @@
 # react-searchable
+[![CircleCI](https://circleci.com/gh/prograsdk/react-searchable.svg?style=svg&circle-token=6f7f2fec7ee257f7fb0455c3d3c28a310cdeb55d)](https://circleci.com/gh/prograsdk/react-searchable)
 
 > Simple collection search for React basd on the function-as-child pattern
 
@@ -15,7 +16,7 @@ import Searchable from 'react-searchable';
 
 class EmailList extends Component {
   static predicate = (item, value) => item.includes(value);
-  
+
   render() {
     return (
       <Searchable items={this.props.emails} predicate={EmailList.predicate}>
@@ -30,7 +31,7 @@ class EmailList extends Component {
             )}
           </>
         )}
-      </Searchable>    
+      </Searchable>
     );
   }
 }
