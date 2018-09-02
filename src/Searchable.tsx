@@ -1,36 +1,74 @@
 import debounce from 'lodash.debounce';
 import {ChangeEvent, Component, ReactNode} from 'react';
 
-/** A predicate function used for filtering items */
-export type FilteringPredicate<T> = (item: T, value: string) => boolean;
+/**
+ * A predicate function used for filtering items.
+ *
+ * @example
+ * ```typescript
+ *
+ * interface User {
+ *   name: string;
+ *   email: string;
+ * };
+ *
+ * const predicate: IFilteringPredicate<User> = (user, value) =>
+ *   user.name.includes(value) || user.email.includes(value);
+ * ```
+ *
+ * @typeparam T - The type of items that will be filtered using the predicate.
+ * @param item - The current item in the filtering process.
+ * @param value - A search value used for filtering.
+ */
+export interface IFilteringPredicate<T> {
+  (item: T, value: string): boolean;
+}
 
 export interface IProps<T> {
-  /** The amount in ms to debounce the filtering method */
+  debounce: boolean;
+  /**
+   * The amount in ms to debounce the filtering method.
+   */
   debounceDuration: number;
-  /** An initial search value. Will affect initial state. */
+  /**
+   * An initial search value. Will affect initial state.
+   */
   initialValue: string;
-  /** The array of items to filter */
+  /**
+   * The array of items to filter.
+   */
   items: T[];
-  /** The predicate used for filtering items */
-  predicate: FilteringPredicate<T>;
-  children(params: {
+  /**
+   * The predicate used for filtering items.
+   */
+  predicate: IFilteringPredicate<T>;
+  /**
+   * A render function.
+   */
+  children(props: {
     items: T[];
     value: string;
-    handleChange(params: ChangeEvent<HTMLInputElement>): void;
+    handleChange(event: ChangeEvent<HTMLInputElement>): void;
   }): ReactNode;
 }
 
 interface IState<T> {
-  /** An array of filtered items based on [[IProps.items]] */
+  /**
+   * An array of filtered items based on [[IProps.items]].
+   */
   items: T[];
+  /**
+   * Current value used for filtering.
+   */
   value: string;
 }
 
 /**
- * @typeparam T - The type of items to search
+ * @typeparam T - The type of items to search.
  */
 export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
   public static defaultProps = {
+    debounce: true,
     debounceDuration: 100,
     initialValue: '',
   };
@@ -44,29 +82,23 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
    * @param predicate - A filtering predicate based on an item and the search value.
    * @returns A filtered array of items.
    */
-  public static filter<T>(items: T[], value: string, predicate: FilteringPredicate<T>) {
+  public static filter<T>(items: T[], value: string, predicate: IFilteringPredicate<T>) {
     return items.filter((item: T) => predicate(item, value));
   }
 
   constructor(props: IProps<T>) {
     super(props);
 
-    const { initialValue: value, predicate, items, debounceDuration } = props;
+    const { initialValue: value, predicate, items, debounce: shouldDebounce } = props;
 
     this.state = {
       items: value !== '' ? Searchable.filter<T>(items, value, predicate) : items,
       value,
     };
 
-    this.filterAndSetState = debounce(this.filterAndSetState, debounceDuration);
-  }
-
-  public filterAndSetState(items: T[], value: string): void {
-    const { predicate } = this.props;
-
-    this.setState({
-      items: value !== '' ? Searchable.filter<T>(items, value, predicate) : items,
-    });
+    if (shouldDebounce) {
+      this.filterAndSetState = debounce(this.filterAndSetState, this.props.debounceDuration);
+    }
   }
 
   /**
@@ -95,5 +127,19 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
     const {children} = this.props;
 
     return children({items, value, handleChange: this.handleChange});
+  }
+
+  /**
+   * Filters an array of items and sets state. This method might be debounced in [[constructor]].
+   *
+   * @param items - The array of items to filter.
+   * @param value - The search value to base the filtering on.
+   */
+  private filterAndSetState(items: T[], value: string): void {
+    const { predicate } = this.props;
+
+    this.setState({
+      items: value !== '' ? Searchable.filter<T>(items, value, predicate) : items,
+    });
   }
 }
