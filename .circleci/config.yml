@@ -22,4 +22,4 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run: yarn test -u
+      - run: yarn test -u && yarn codecov
