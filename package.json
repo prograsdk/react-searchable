@@ -32,7 +32,7 @@
     "build": "./node_modules/typescript/bin/tsc",
     "lint": "./node_modules/tslint/bin/tslint -c ./tslint.json 'src/**/*.ts'",
     "test": "./node_modules/jest/bin/jest.js",
-    "docs": "./node_modules/typedoc/bin/typedoc --out ./docs/ --exclude '**/__tests__/*' ./src/",
+    "docs": "./node_modules/typedoc/bin/typedoc --out ./docs/ --exclude '**/__tests__/*' ./src/ && touch docs/.nojekyll",
     "codecov": "./node_modules/codecov/bin/codecov"
   },
   "jest": {
