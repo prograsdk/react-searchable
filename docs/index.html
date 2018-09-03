@@ -68,37 +68,34 @@
 				<p><a href="https://circleci.com/gh/prograsdk/react-searchable"><img src="https://circleci.com/gh/prograsdk/react-searchable.svg?style=svg&circle-token=6f7f2fec7ee257f7fb0455c3d3c28a310cdeb55d" alt="CircleCI"></a>
 				<a href="https://codecov.io/gh/prograsdk/react-searchable"><img src="https://codecov.io/gh/prograsdk/react-searchable/branch/master/graph/badge.svg" alt="codecov"></a></p>
 				<blockquote>
-					<p>Simple collection search for React basd on the function-as-child pattern</p>
+					<p>Simple collection search for React based on the function-as-child/render props pattern.</p>
 				</blockquote>
 				<h2 id="installation">Installation</h2>
-				<p>Add <code>react-searchable</code> to your dependencies using your favorite package manager. Using Yarn: <code>yarn add react-searchable</code> or using npm: <code>npm install --save react-searchable</code>.</p>
-				<h2 id="usage">Usage</h2>
-				<p><code>react-searchable</code> exposes a single component as its default export. This component needs to props to function: <code>items</code> and <code>predicate</code>. <code>items</code> is the collection of items that should be searched and <code>predicate</code> is a function used to filter these items.
-				<code>react-searchable</code> is based on the function-as-child or render-props pattern and therefore accepts a single funtion as child. This function is called with an object of shape <code>{ items, handleChange, value }</code> as parameter. Here, <code>items</code> is an array of filtered items based on the <code>predicate</code> prop. <code>handleChange</code> is an event handler to be placed on an input element.</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+				<p>Add <code>react-searchable</code> to your dependencies using your favorite package manager. With Yarn: </p>
+				<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> react-searchable</span></code></pre><p>or using npm:</p>
+				<pre><code>npm <span class="hljs-keyword">install</span> react-searchable</code></pre><h2 id="usage">Usage</h2>
+				<p><code>react-searchable</code> exposes a single component as its default export. This component requires two props to function: <code>items</code> and <code>predicate</code>. <code>items</code> is a collection of items that should be searched through and <code>predicate</code> is a function used to filter these items.
+				<code>react-searchable</code> is based on the function-as-child (or <a href="https://reactjs.org/docs/render-props.html">render-props</a>) pattern and therefore accepts a single funtion as its child. This function is called with an object of shape <code>{ items, handleChange, value }</code> as parameter. Here, <code>items</code> is an array of filtered items based on the <code>predicate</code> prop. <code>handleChange</code> is an event handler to be placed on an input element.</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> Searchable <span class="hljs-keyword">from</span> <span class="hljs-string">'react-searchable'</span>;
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">EmailList</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
-  <span class="hljs-keyword">static</span> predicate = <span class="hljs-function">(<span class="hljs-params">item, value</span>) =&gt;</span> item.includes(value);
+<span class="hljs-keyword">const</span> predicate = <span class="hljs-function">(<span class="hljs-params">item, value</span>) =&gt;</span> item.includes(value);
 
-  render() {
-    <span class="hljs-keyword">return</span> (
-      <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Searchable</span> <span class="hljs-attr">items</span>=<span class="hljs-string">{this.props.emails}</span> <span class="hljs-attr">predicate</span>=<span class="hljs-string">{EmailList.predicate}</span>&gt;</span>
-        {({ items, value, handleChange }) =&gt; (
-          <span class="hljs-tag">&lt;&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search ..."</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /&gt;</span>
+<span class="hljs-keyword">const</span> EmailList = <span class="hljs-function">(<span class="hljs-params">{ emails }</span>) =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Searchable</span> <span class="hljs-attr">items</span>=<span class="hljs-string">{emails}</span> <span class="hljs-attr">predicate</span>=<span class="hljs-string">{predicate}</span>&gt;</span>
+    {({ items, value, handleChange }) =&gt; (
+      <span class="hljs-tag">&lt;&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search ..."</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /&gt;</span>
 
-            {items.length &gt; 0 &amp;&amp; (
-              <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
-                {items.map(item =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{item}</span>&gt;</span>{item}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>)}
-              <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
-            )}
-          <span class="hljs-tag">&lt;/&gt;</span>
+        {items.length &gt; 0 &amp;&amp; (
+          <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
+            {items.map(item =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{item}</span>&gt;</span>{item}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>)}
+          <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
         )}
-      <span class="hljs-tag">&lt;/<span class="hljs-name">Searchable</span>&gt;</span>
-    );
-  }
-}</span></code></pre>
+      <span class="hljs-tag">&lt;/&gt;</span>
+    )}
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Searchable</span>&gt;</span>
+);</span></code></pre>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
