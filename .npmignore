@@ -3,4 +3,5 @@ coverage/
 docs/
 tsconfig.json
 tslint.json
+setupTest.js
 .prettierrc
