@@ -5,7 +5,7 @@
 > Simple collection search for React based on the function-as-child/render props pattern.
 
 ## Installation
-Add `react-searchable` to your dependencies using your favorite package manager. With Yarn: 
+Add `react-searchable` to your dependencies using your favorite package manager. With Yarn:
 ```
 yarn add react-searchable
 ```
@@ -26,13 +26,13 @@ const predicate = (item, value) => item.includes(value);
 
 const EmailList = ({ emails }) => (
   <Searchable items={emails} predicate={predicate}>
-    {({ items, value, handleChange }) => (
+    {({ filteredItems, query, handleChange }) => (
       <>
-        <input type="text" placeholder="Search ..." onChange={handleChange} />
+        <input type="text" onChange={handleChange} value={query} />
 
-        {items.length > 0 && (
+        {filteredItems.length > 0 && (
           <ul>
-            {items.map(item => <li key={item}>{item}</li>)}
+            {filteredItems.map(item => <li key={item}>{item}</li>)}
           </ul>
         )}
       </>

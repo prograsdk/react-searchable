@@ -71,7 +71,7 @@
 					<p>Simple collection search for React based on the function-as-child/render props pattern.</p>
 				</blockquote>
 				<h2 id="installation">Installation</h2>
-				<p>Add <code>react-searchable</code> to your dependencies using your favorite package manager. With Yarn: </p>
+				<p>Add <code>react-searchable</code> to your dependencies using your favorite package manager. With Yarn:</p>
 				<pre><code>yarn <span class="hljs-keyword">add</span><span class="bash"> react-searchable</span></code></pre><p>or using npm:</p>
 				<pre><code>npm <span class="hljs-keyword">install</span> react-searchable</code></pre><h2 id="usage">Usage</h2>
 				<p><code>react-searchable</code> exposes a single component as its default export. This component requires two props to function: <code>items</code> and <code>predicate</code>. <code>items</code> is a collection of items that should be searched through and <code>predicate</code> is a function used to filter these items.
@@ -83,13 +83,13 @@
 
 <span class="hljs-keyword">const</span> EmailList = <span class="hljs-function">(<span class="hljs-params">{ emails }</span>) =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Searchable</span> <span class="hljs-attr">items</span>=<span class="hljs-string">{emails}</span> <span class="hljs-attr">predicate</span>=<span class="hljs-string">{predicate}</span>&gt;</span>
-    {({ items, value, handleChange }) =&gt; (
+    {({ filteredItems, query, handleChange }) =&gt; (
       <span class="hljs-tag">&lt;&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Search ..."</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{handleChange}</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{query}</span> /&gt;</span>
 
-        {items.length &gt; 0 &amp;&amp; (
+        {filteredItems.length &gt; 0 &amp;&amp; (
           <span class="hljs-tag">&lt;<span class="hljs-name">ul</span>&gt;</span>
-            {items.map(item =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{item}</span>&gt;</span>{item}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>)}
+            {filteredItems.map(item =&gt; <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">key</span>=<span class="hljs-string">{item}</span>&gt;</span>{item}<span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>)}
           <span class="hljs-tag">&lt;/<span class="hljs-name">ul</span>&gt;</span>
         )}
       <span class="hljs-tag">&lt;/&gt;</span>
