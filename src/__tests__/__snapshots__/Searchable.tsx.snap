@@ -28,25 +28,9 @@ ShallowWrapper {
     "simulateEvent": [Function],
     "unmount": [Function],
   },
-  Symbol(enzyme.__node__): Object {
-    "instance": null,
-    "key": undefined,
-    "nodeType": "function",
-    "props": Object {},
-    "ref": null,
-    "rendered": null,
-    "type": Symbol(react.fragment),
-  },
+  Symbol(enzyme.__node__): null,
   Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "function",
-      "props": Object {},
-      "ref": null,
-      "rendered": null,
-      "type": Symbol(react.fragment),
-    },
+    null,
   ],
   Symbol(enzyme.__options__): Object {
     "adapter": ReactSixteenAdapter {

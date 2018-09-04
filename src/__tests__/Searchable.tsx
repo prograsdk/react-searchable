@@ -1,5 +1,6 @@
-import {shallow, ShallowWrapper} from 'enzyme';
-import * as React from 'react';
+import debounce from 'lodash.debounce';
+import {mount, ShallowWrapper, shallow} from 'enzyme';
+import React from 'react';
 import Searchable, {IProps} from '../Searchable';
 
 jest.mock('lodash.debounce', (): any => jest.fn((fn: () => any) => fn));
@@ -13,7 +14,7 @@ interface ISetup<T> {
   props: IProps<T>;
 }
 
-function setup(overrides?): ISetup<IUser> {
+function setup(overrides?: any): ISetup<IUser> {
   const props: IProps<IUser> = {
     items: [
       {
@@ -28,8 +29,8 @@ function setup(overrides?): ISetup<IUser> {
     ...overrides,
   };
 
-  const wrapper: ShallowWrapper = shallow(
-    <Searchable {...props}>{() => <></>}</Searchable>,
+  const wrapper: ShallowWrapper = shallow<Searchable<IUser>, {}, {}>(
+    <Searchable<IUser> {...props}>{() => null}</Searchable>,
   );
 
   return {
@@ -39,10 +40,29 @@ function setup(overrides?): ISetup<IUser> {
 }
 
 describe('<Searchable />', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('renders without crashing', () => {
     const {wrapper} = setup();
 
     expect(wrapper).toMatchSnapshot();
+  });
+
+  it('debounces filtering function', () => {
+    const {wrapper} = setup();
+    const instance = wrapper.instance() as Searchable<IUser>;
+
+    const filter = instance.filterAndSetState;
+
+    expect(debounce).toHaveBeenCalledWith(filter, 100);
+  });
+
+  it('does not debounce the function', () => {
+    const {wrapper} = setup({debounce: false});
+
+    expect(debounce).not.toHaveBeenCalled();
   });
 
   it('filters initial state based on props', () => {
@@ -57,6 +77,14 @@ describe('<Searchable />', () => {
     wrapper.setState({value: 'corncob'});
 
     expect(wrapper.state('items')).toEqual([]);
+  });
+
+  it('returns items prop if value is empty string', () => {
+    const {wrapper, props: { items }} = setup();
+
+    wrapper.setState({value: ''});
+
+    expect(wrapper.state('items')).toEqual(items);
   });
 
   it('filters items based on predicate', () => {
@@ -89,5 +117,17 @@ describe('<Searchable />', () => {
 
       expect(wrapper.state('value')).toEqual('Jake');
     });
+  });
+
+  it('renders render prop if passed', () => {
+    const {props} = setup();
+
+    const render = () => <p>react-searchable</p>;
+
+    const wrapper = mount(
+      <Searchable<IUser> {...props} render={render} />,
+    );
+
+    expect(wrapper.find('p').exists()).toBe(true);
   });
 });

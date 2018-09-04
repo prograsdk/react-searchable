@@ -24,7 +24,18 @@ export interface IFilteringPredicate<T> {
   (item: T, value: string): boolean;
 }
 
-export interface IProps<T> {
+export interface IRenderProp<T> {
+  (props: {
+    items: T[];
+    value: string;
+    handleChange(event: ChangeEvent<HTMLInputElement>): void;
+  }): ReactNode;
+}
+
+interface IBaseProps<T> {
+  /**
+   * Should the filtering function be debounced?
+   */
   debounce: boolean;
   /**
    * The amount in ms to debounce the filtering method.
@@ -42,15 +53,19 @@ export interface IProps<T> {
    * The predicate used for filtering items.
    */
   predicate: IFilteringPredicate<T>;
-  /**
-   * A render function.
-   */
-  children(props: {
-    items: T[];
-    value: string;
-    handleChange(event: ChangeEvent<HTMLInputElement>): void;
-  }): ReactNode;
+  children: IRenderProp<T>;
+  render: IRenderProp<T>;
 }
+
+interface IPropsWithChildren<T> extends IBaseProps<T> {
+  children: IRenderProp<T>;
+}
+
+interface IPropsWithRender<T> extends IBaseProps<T> {
+  render: IRenderProp<T>;
+}
+
+export type IProps<T> = IPropsWithChildren<T> | IPropsWithRender<T>;
 
 interface IState<T> {
   /**
@@ -124,9 +139,17 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
 
   public render(): ReactNode {
     const {items, value} = this.state;
-    const {children} = this.props;
+    const {render, children} = this.props;
 
-    return children({items, value, handleChange: this.handleChange});
+    const renderParams = { items, value, handleChange: this.handleChange };
+
+    if (render) {
+      return render(renderParams);
+    } else if (children) {
+      return children(renderParams);
+    } else {
+      return null;
+    }
   }
 
   /**
@@ -135,7 +158,7 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
    * @param items - The array of items to filter.
    * @param value - The search value to base the filtering on.
    */
-  private filterAndSetState(items: T[], value: string): void {
+  public filterAndSetState(items: T[], value: string): void {
     const { predicate } = this.props;
 
     this.setState({

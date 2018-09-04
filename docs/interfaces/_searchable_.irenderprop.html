@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IState | react-searchable</title>
+	<title>IRenderProp | react-searchable</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/_searchable_.html">&quot;Searchable&quot;</a>
 				</li>
 				<li>
-					<a href="_searchable_.istate.html">IState</a>
+					<a href="_searchable_.irenderprop.html">IRenderProp</a>
 				</li>
 			</ul>
-			<h1>Interface IState&lt;T&gt;</h1>
+			<h1>Interface IRenderProp&lt;T&gt;</h1>
 		</div>
 	</div>
 </header>
@@ -81,56 +81,60 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IState</span>
+						<span class="target">IRenderProp</span>
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_searchable_.istate.html#items" class="tsd-kind-icon">items</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_searchable_.istate.html#value" class="tsd-kind-icon">value</a></li>
+			<section class="tsd-panel">
+				<h3 class="tsd-before-signature">Callable</h3>
+				<ul class="tsd-signatures tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+					<li class="tsd-signature tsd-kind-icon">__call<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactNode</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/prograsdk/react-searchable/blob/2d5eaba/src/Searchable.tsx#L27">Searchable.tsx:27</a></li>
 							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="items" class="tsd-anchor"></a>
-					<h3>items</h3>
-					<div class="tsd-signature tsd-kind-icon">items<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/prograsdk/react-searchable/blob/2d5eaba/src/Searchable.tsx#L74">Searchable.tsx:74</a></li>
+						</aside>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>props: <span class="tsd-signature-type">object</span></h5>
+								<ul class="tsd-parameters">
+									<li class="tsd-parameter">
+										<h5>items<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></h5>
+									</li>
+									<li class="tsd-parameter">
+										<h5>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+									</li>
+									<li class="tsd-parameter">
+										<h5>handle<wbr>Change<span class="tsd-signature-symbol">: </span>function</h5>
+										<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
+											<li class="tsd-signature tsd-kind-icon">handle<wbr>Change<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ChangeEvent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLInputElement</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+										</ul>
+										<ul class="tsd-descriptions">
+											<li class="tsd-description">
+												<aside class="tsd-sources">
+													<ul>
+														<li>Defined in <a href="https://github.com/prograsdk/react-searchable/blob/2d5eaba/src/Searchable.tsx#L31">Searchable.tsx:31</a></li>
+													</ul>
+												</aside>
+												<h4 class="tsd-parameters-title">Parameters</h4>
+												<ul class="tsd-parameters">
+													<li>
+														<h5>event: <span class="tsd-signature-type">ChangeEvent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">HTMLInputElement</span><span class="tsd-signature-symbol">&gt;</span></h5>
+													</li>
+												</ul>
+												<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+											</li>
+									</ul>        </li>
+								</ul>
+							</li>
 						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>An array of filtered items based on [[IProps.items]].</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-					<a name="value" class="tsd-anchor"></a>
-					<h3>value</h3>
-					<div class="tsd-signature tsd-kind-icon">value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/prograsdk/react-searchable/blob/2d5eaba/src/Searchable.tsx#L78">Searchable.tsx:78</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Current value used for filtering.</p>
-						</div>
-					</div>
-				</section>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactNode</span></h4>
+					</li>
+				</ul>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -164,24 +168,16 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
 						<a href="_searchable_.ipropswithrender.html" class="tsd-kind-icon">IProps<wbr>With<wbr>Render</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="_searchable_.irenderprop.html" class="tsd-kind-icon">IRender<wbr>Prop</a>
 					</li>
 				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
-						<a href="_searchable_.istate.html" class="tsd-kind-icon">IState</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_searchable_.istate.html#items" class="tsd-kind-icon">items</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
-								<a href="_searchable_.istate.html#value" class="tsd-kind-icon">value</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-not-exported">
+						<a href="_searchable_.istate.html" class="tsd-kind-icon">IState</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-has-type-parameter">
 						<a href="../modules/_searchable_.html#iprops" class="tsd-kind-icon">IProps</a>
 					</li>
