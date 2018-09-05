@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce';
 import {mount, ShallowWrapper, shallow} from 'enzyme';
-import React from 'react';
-import Searchable, {IProps} from '../Searchable';
+import React, {ReactNode} from 'react';
+import Searchable, {IProps, IRenderProp} from '../Searchable';
 
 jest.mock('lodash.debounce', (): any => jest.fn((fn: () => any) => fn));
 
@@ -44,10 +44,50 @@ describe('<Searchable />', () => {
     jest.clearAllMocks();
   });
 
-  it('renders without crashing', () => {
-    const {wrapper} = setup();
+  describe('rendering', () => {
+    let render: IRenderProp<IUser>;
 
-    expect(wrapper).toMatchSnapshot();
+    beforeEach(() => {
+      render = () => <p>searchable</p>;
+    });
+
+    it('renders without crashing', () => {
+      const {wrapper} = setup();
+
+      expect(wrapper).toMatchSnapshot();
+    });
+
+    it('renders children if passed', () => {
+      const {props} = setup();
+
+      const wrapper = mount(
+        <Searchable<IUser> {...props}>
+          {render}
+        </Searchable>,
+      );
+
+      expect(wrapper.find('p').exists()).toBe(true);
+    });
+
+    it('renders render prop if passed', () => {
+      const {props} = setup();
+
+      const wrapper = mount(
+        <Searchable<IUser> {...props} render={render} />,
+      );
+
+      expect(wrapper.find('p').exists()).toBe(true);
+    });
+
+    it('renders null if no children or render is passed', () => {
+      const {props} = setup();
+
+      const wrapper = shallow(
+        <Searchable<IUser> {...props} />,
+      );
+
+      expect(wrapper.type()).toBe(null);
+    });
   });
 
   it('debounces filtering function', () => {
@@ -80,7 +120,7 @@ describe('<Searchable />', () => {
   });
 
   it('returns items prop if value is empty string', () => {
-    const {wrapper, props: { items }} = setup();
+    const {wrapper, props: {items}} = setup({initialValue: 'corncob'});
 
     wrapper.setState({value: ''});
 
@@ -117,17 +157,5 @@ describe('<Searchable />', () => {
 
       expect(wrapper.state('value')).toEqual('Jake');
     });
-  });
-
-  it('renders render prop if passed', () => {
-    const {props} = setup();
-
-    const render = () => <p>react-searchable</p>;
-
-    const wrapper = mount(
-      <Searchable<IUser> {...props} render={render} />,
-    );
-
-    expect(wrapper.find('p').exists()).toBe(true);
   });
 });
