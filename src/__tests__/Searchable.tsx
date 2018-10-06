@@ -61,9 +61,7 @@ describe('<Searchable />', () => {
       const {props} = setup();
 
       const wrapper = mount(
-        <Searchable<IUser> {...props}>
-          {render}
-        </Searchable>,
+        <Searchable<IUser> {...props}>{render}</Searchable>,
       );
 
       expect(wrapper.find('p').exists()).toBe(true);
@@ -72,9 +70,7 @@ describe('<Searchable />', () => {
     it('renders render prop if passed', () => {
       const {props} = setup();
 
-      const wrapper = mount(
-        <Searchable<IUser> {...props} render={render} />,
-      );
+      const wrapper = mount(<Searchable<IUser> {...props} render={render} />);
 
       expect(wrapper.find('p').exists()).toBe(true);
     });
@@ -82,9 +78,7 @@ describe('<Searchable />', () => {
     it('renders null if no children or render is passed', () => {
       const {props} = setup();
 
-      const wrapper = shallow(
-        <Searchable<IUser> {...props} />,
-      );
+      const wrapper = shallow(<Searchable<IUser> {...props} />);
 
       expect(wrapper.type()).toBe(null);
     });
@@ -120,7 +114,10 @@ describe('<Searchable />', () => {
   });
 
   it('returns items prop if value is empty string', () => {
-    const {wrapper, props: {items}} = setup({initialValue: 'corncob'});
+    const {
+      wrapper,
+      props: {items},
+    } = setup({initialValue: 'corncob'});
 
     wrapper.setState({value: ''});
 
@@ -142,7 +139,7 @@ describe('<Searchable />', () => {
     const filter = jest.fn();
     Searchable.filter = filter;
 
-    wrapper.setState({ value: '' });
+    wrapper.setState({value: ''});
 
     expect(filter).not.toHaveBeenCalled();
   });
@@ -151,7 +148,9 @@ describe('<Searchable />', () => {
     it('sets state', () => {
       const {wrapper} = setup();
       const instance = wrapper.instance() as Searchable<IUser>;
-      const event = { target: { value: 'Jake' } } as React.ChangeEvent<HTMLInputElement>;
+      const event = {target: {value: 'Jake'}} as React.ChangeEvent<
+        HTMLInputElement
+      >;
 
       instance.handleChange(event);
 
