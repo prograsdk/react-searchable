@@ -1,6 +1,6 @@
 {
   "name": "react-searchable",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "lib/index.js",
   "types": "lib/index.d.js",
   "repository": "https://github.com/prograsdk/react-searchable",
@@ -56,9 +56,19 @@
       "\\.(ts|tsx)$": "ts-jest"
     },
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/**/*.{ts,tsx}", "!**/index.ts"],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!**/index.ts"
+    ],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   },
   "husky": {
     "hooks": {
