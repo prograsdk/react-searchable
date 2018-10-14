@@ -6,33 +6,49 @@
 
 ## Installation
 Add `react-searchable` to your dependencies using your favorite package manager. With Yarn:
+
 ```
 yarn add react-searchable
 ```
+
 or using npm:
+
 ```
 npm install react-searchable
 ```
 
 ## Usage
-`react-searchable` exposes a single component as its default export. This component requires two props to function: `items` and `predicate`. `items` is a collection of items that should be searched through and `predicate` is a function used to filter these items.
-`react-searchable` is based on the function-as-child (or [render-props](https://reactjs.org/docs/render-props.html)) pattern and therefore accepts a single funtion as its child. This function is called with an object of shape `{ items, handleChange, value }` as parameter. Here, `items` is an array of filtered items based on the `predicate` prop. `handleChange` is an event handler to be placed on an input element.
 
+### `<Searchable />`
+`react-searchable` exports a single React component as its default export.
+
+#### Props
+ * `items: Array<T>`: An array of items of type `T` to be searched.
+ * `predicate: (item: T, query: string) => Boolean`: A boolean function determining wether `item` should be included in the searched list based on the current `query` string.
+ * `children | render: ({ items: Array<T>, query: string, handleChange: Function }) => ReactNode`: A render function for handling the search results.
+ * `debounce?: int | boolean`: The amount in milliseconds to debounce the filtering function. `false` disables debounce and `true` uses the default. Defaults to `300`.
+ * `initialQuery?: string`: A query string used for the initial search. Default to the empty string.
+
+
+### Example
 ```javascript
 import React from 'react';
 import Searchable from 'react-searchable';
 
-const predicate = (item, value) => item.includes(value);
+const predicate = (user, query) =>
+  user.email.includes(query) || user.name.includes(query)
 
-const EmailList = ({ emails }) => (
-  <Searchable items={emails} predicate={predicate}>
-    {({ filteredItems, query, handleChange }) => (
+const UserList = ({ users }) => (
+  <Searchable items={users} predicate={predicate}>
+    {({ items, query, handleChange }) => (
       <>
         <input type="text" onChange={handleChange} value={query} />
 
-        {filteredItems.length > 0 && (
+        {items.length > 0 && (
           <ul>
-            {filteredItems.map(item => <li key={item}>{item}</li>)}
+            {items.map(({ id, name, email }) =>
+              <li key={id}>{name} ({email})</li>
+            )}
           </ul>
         )}
       </>

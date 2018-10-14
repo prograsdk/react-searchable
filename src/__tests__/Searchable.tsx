@@ -1,5 +1,5 @@
+import {mount, shallow, ShallowWrapper} from 'enzyme';
 import debounce from 'lodash.debounce';
-import {mount, ShallowWrapper, shallow} from 'enzyme';
 import React, {ReactNode} from 'react';
 import Searchable, {IProps, IRenderProp} from '../Searchable';
 
@@ -24,8 +24,8 @@ function setup(overrides?: any): ISetup<IUser> {
         name: 'Jake Bullock',
       },
     ],
-    predicate: (item: IUser, value: string): boolean =>
-      item.name.includes(value),
+    predicate: (item: IUser, query: string): boolean =>
+      item.name.includes(query),
     ...overrides,
   };
 
@@ -74,33 +74,39 @@ describe('<Searchable />', () => {
 
       expect(wrapper.find('p').exists()).toBe(true);
     });
+  });
 
-    it('renders null if no children or render is passed', () => {
-      const {props} = setup();
+  describe('debouncing', () => {
+    it('debounces filtering function with default on true', () => {
+      const {wrapper} = setup({debounce: true});
+      const instance = wrapper.instance() as Searchable<IUser>;
 
-      const wrapper = shallow(<Searchable<IUser> {...props} />);
+      const filter = instance.filterAndSetState;
 
-      expect(wrapper.type()).toBe(null);
+      expect(debounce).toHaveBeenCalledWith(
+        filter,
+        Searchable.defaultProps.debounce,
+      );
+    });
+
+    it('debounces filtering function with pased duration', () => {
+      const {wrapper} = setup({debounce: 500});
+      const instance = wrapper.instance() as Searchable<IUser>;
+
+      const filter = instance.filterAndSetState;
+
+      expect(debounce).toHaveBeenCalledWith(filter, 500);
+    });
+
+    it('does not debounce the function on false', () => {
+      const {wrapper} = setup({debounce: false});
+
+      expect(debounce).not.toHaveBeenCalled();
     });
   });
 
-  it('debounces filtering function', () => {
-    const {wrapper} = setup();
-    const instance = wrapper.instance() as Searchable<IUser>;
-
-    const filter = instance.filterAndSetState;
-
-    expect(debounce).toHaveBeenCalledWith(filter, 100);
-  });
-
-  it('does not debounce the function', () => {
-    const {wrapper} = setup({debounce: false});
-
-    expect(debounce).not.toHaveBeenCalled();
-  });
-
   it('filters initial state based on props', () => {
-    const {wrapper} = setup({initialValue: 'Jake'});
+    const {wrapper} = setup({initialQuery: 'Jake'});
 
     expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
   });
@@ -108,18 +114,18 @@ describe('<Searchable />', () => {
   it('returns empty array if no matches', () => {
     const {wrapper} = setup();
 
-    wrapper.setState({value: 'corncob'});
+    wrapper.setState({query: 'corncob'});
 
     expect(wrapper.state('items')).toEqual([]);
   });
 
-  it('returns items prop if value is empty string', () => {
+  it('returns items prop if query is empty string', () => {
     const {
       wrapper,
       props: {items},
-    } = setup({initialValue: 'corncob'});
+    } = setup({initialQuery: 'corncob'});
 
-    wrapper.setState({value: ''});
+    wrapper.setState({query: ''});
 
     expect(wrapper.state('items')).toEqual(items);
   });
@@ -127,19 +133,19 @@ describe('<Searchable />', () => {
   it('filters items based on predicate', () => {
     const {wrapper} = setup();
 
-    wrapper.setState({value: 'Jake'});
+    wrapper.setState({query: 'Jake'});
 
     expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
   });
 
-  it('does not call Searchable.filter if value is empty', () => {
+  it('does not call Searchable.filter if query is empty', () => {
     const {wrapper} = setup();
 
     // Mock Searchable.filter
     const filter = jest.fn();
     Searchable.filter = filter;
 
-    wrapper.setState({value: ''});
+    wrapper.setState({query: ''});
 
     expect(filter).not.toHaveBeenCalled();
   });
@@ -148,13 +154,15 @@ describe('<Searchable />', () => {
     it('sets state', () => {
       const {wrapper} = setup();
       const instance = wrapper.instance() as Searchable<IUser>;
-      const event = {target: {value: 'Jake'}} as React.ChangeEvent<
-        HTMLInputElement
-      >;
+
+      // tslint:disable:no-object-literal-type-assertion
+      const event = {
+        target: {value: 'Jake'},
+      } as React.ChangeEvent<HTMLInputElement>;
 
       instance.handleChange(event);
 
-      expect(wrapper.state('value')).toEqual('Jake');
+      expect(wrapper.state('query')).toEqual('Jake');
     });
   });
 });
