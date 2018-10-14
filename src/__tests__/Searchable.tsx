@@ -105,49 +105,76 @@ describe('<Searchable />', () => {
     });
   });
 
-  it('filters initial state based on props', () => {
-    const {wrapper} = setup({initialQuery: 'Jake'});
+  describe('filtering', () => {
+    describe('initial state', () => {
+      it('filters items based on initialQuery', () => {
+        const {wrapper} = setup({initialQuery: 'Jake'});
 
-    expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
-  });
+        expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
+      });
 
-  it('returns empty array if no matches', () => {
-    const {wrapper} = setup();
+      it('returns empty array', () => {
+        const {wrapper} = setup();
 
-    wrapper.setState({query: 'corncob'});
+        expect(wrapper.state('items')).toEqual([]);
+      });
 
-    expect(wrapper.state('items')).toEqual([]);
-  });
+      it('returns all items if filter is true', () => {
+        const {
+          wrapper,
+          props: {items},
+        } = setup({filter: true});
 
-  it('returns items prop if query is empty string', () => {
-    const {
-      wrapper,
-      props: {items},
-    } = setup({initialQuery: 'corncob'});
+        expect(wrapper.state('items')).toEqual(items);
+      });
+    });
 
-    wrapper.setState({query: ''});
+    it('filters items based on predicate', () => {
+      const {wrapper} = setup();
 
-    expect(wrapper.state('items')).toEqual(items);
-  });
+      wrapper.setState({query: 'Jake'});
 
-  it('filters items based on predicate', () => {
-    const {wrapper} = setup();
+      expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
+    });
 
-    wrapper.setState({query: 'Jake'});
+    it('returns empty array if no matches', () => {
+      const {wrapper} = setup();
 
-    expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
-  });
+      wrapper.setState({query: 'corncob'});
 
-  it('does not call Searchable.filter if query is empty', () => {
-    const {wrapper} = setup();
+      expect(wrapper.state('items')).toEqual([]);
+    });
 
-    // Mock Searchable.filter
-    const filter = jest.fn();
-    Searchable.filter = filter;
+    it('returns empty array if query string is empty', () => {
+      const {wrapper} = setup({initialQuery: 'corncob'});
 
-    wrapper.setState({query: ''});
+      wrapper.setState({query: ''});
 
-    expect(filter).not.toHaveBeenCalled();
+      expect(wrapper.state('items')).toEqual([]);
+    });
+
+    it('returns all items if query string is empty and filter is true', () => {
+      const {
+        wrapper,
+        props: {items},
+      } = setup({initialQuery: 'corncob', filter: true});
+
+      wrapper.setState({query: ''});
+
+      expect(wrapper.state('items')).toEqual(items);
+    });
+
+    it('does not call Searchable.filter if query is empty', () => {
+      const {wrapper} = setup();
+
+      // Mock Searchable.filter
+      const filter = jest.fn();
+      Searchable.filter = filter;
+
+      wrapper.setState({query: ''});
+
+      expect(filter).not.toHaveBeenCalled();
+    });
   });
 
   describe('handleChange', () => {
