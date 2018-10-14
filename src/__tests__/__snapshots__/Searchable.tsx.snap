@@ -5,6 +5,7 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Searchable
     debounce={300}
+    filter={false}
     initialQuery=""
     items={
       Array [

@@ -106,15 +106,27 @@ describe('<Searchable />', () => {
   });
 
   describe('filtering', () => {
-    it('returns empty array if query is empty string', () => {
-      const {
-        wrapper,
-        props: {items},
-      } = setup({ initialQuery: 'corncob' });
+    describe('initial state', () => {
+      it('filters items based on initialQuery', () => {
+        const {wrapper} = setup({initialQuery: 'Jake'});
 
-      wrapper.setState({query: ''});
+        expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
+      });
 
-      expect(wrapper.state('items')).toEqual([]);
+      it('returns empty array', () => {
+        const {wrapper} = setup();
+
+        expect(wrapper.state('items')).toEqual([]);
+      });
+
+      it('returns all items if filter is true', () => {
+        const {
+          wrapper,
+          props: {items},
+        } = setup({filter: true});
+
+        expect(wrapper.state('items')).toEqual(items);
+      });
     });
 
     it('filters items based on predicate', () => {
@@ -125,18 +137,31 @@ describe('<Searchable />', () => {
       expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
     });
 
-    it('filters initial items based on initialQuery', () => {
-      const {wrapper} = setup({initialQuery: 'Jake'});
-
-      expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
-    });
-
     it('returns empty array if no matches', () => {
       const {wrapper} = setup();
 
       wrapper.setState({query: 'corncob'});
 
       expect(wrapper.state('items')).toEqual([]);
+    });
+
+    it('returns empty array if query string is empty', () => {
+      const {wrapper} = setup({initialQuery: 'corncob'});
+
+      wrapper.setState({query: ''});
+
+      expect(wrapper.state('items')).toEqual([]);
+    });
+
+    it('returns all items if query string is empty and filter is true', () => {
+      const {
+        wrapper,
+        props: {items},
+      } = setup({initialQuery: 'corncob', filter: true});
+
+      wrapper.setState({query: ''});
+
+      expect(wrapper.state('items')).toEqual(items);
     });
 
     it('does not call Searchable.filter if query is empty', () => {

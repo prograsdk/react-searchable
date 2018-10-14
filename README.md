@@ -28,6 +28,7 @@ npm install react-searchable
  * `children | render: ({ items: Array<T>, query: string, handleChange: Function }) => ReactNode`: A render function for handling the search results.
  * `debounce?: int | boolean`: The amount in milliseconds to debounce the filtering function. `false` disables debounce and `true` uses the default. Defaults to `300`.
  * `initialQuery?: string`: A query string used for the initial search. Default to the empty string.
+ * `filter?: boolean`: Determines what will be included in the searched list when the query string is empty. If `true`, the list will contain all items (filtering); if `false`, the list will be empty. Defaults to `false`.
 
 
 ### Example

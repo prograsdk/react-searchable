@@ -51,6 +51,11 @@ interface IBaseProps<T> {
    * The predicate used for filtering items.
    */
   predicate: IFilteringPredicate<T>;
+  /**
+   * Determines wether items should be filtered instead of searched.
+   * If `true` all items will be returned on empty query string.
+   */
+  filter: boolean;
 }
 
 interface IPropsWithChildren<T> extends IBaseProps<T> {
@@ -80,6 +85,7 @@ interface IState<T> {
 export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
   public static defaultProps = {
     debounce: 300,
+    filter: false,
     initialQuery: '',
   };
 
@@ -103,11 +109,15 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
   constructor(props: IProps<T>) {
     super(props);
 
-    const {initialQuery: query, predicate, items, debounce} = props;
+    const {initialQuery: query, predicate, items, debounce, filter} = props;
 
     this.state = {
       items:
-        query !== '' ? Searchable.filter<T>(items, query, predicate) : [],
+        query !== ''
+          ? Searchable.filter<T>(items, query, predicate)
+          : filter
+            ? items
+            : [],
       query,
     };
 
@@ -160,11 +170,15 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
    * @param query - The search query to base the filtering on.
    */
   public filterAndSetState(items: T[], query: string): void {
-    const {predicate} = this.props;
+    const {predicate, filter} = this.props;
 
     this.setState({
       items:
-        query !== '' ? Searchable.filter<T>(items, query, predicate) : [],
+        query !== ''
+          ? Searchable.filter<T>(items, query, predicate)
+          : filter
+            ? items
+            : [],
     });
   }
 }
