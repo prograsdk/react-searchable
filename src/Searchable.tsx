@@ -107,7 +107,7 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
 
     this.state = {
       items:
-        query !== '' ? Searchable.filter<T>(items, query, predicate) : items,
+        query !== '' ? Searchable.filter<T>(items, query, predicate) : [],
       query,
     };
 
@@ -164,7 +164,7 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
 
     this.setState({
       items:
-        query !== '' ? Searchable.filter<T>(items, query, predicate) : items,
+        query !== '' ? Searchable.filter<T>(items, query, predicate) : [],
     });
   }
 }

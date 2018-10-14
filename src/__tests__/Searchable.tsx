@@ -105,49 +105,51 @@ describe('<Searchable />', () => {
     });
   });
 
-  it('filters initial state based on props', () => {
-    const {wrapper} = setup({initialQuery: 'Jake'});
+  describe('filtering', () => {
+    it('returns empty array if query is empty string', () => {
+      const {
+        wrapper,
+        props: {items},
+      } = setup({ initialQuery: 'corncob' });
 
-    expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
-  });
+      wrapper.setState({query: ''});
 
-  it('returns empty array if no matches', () => {
-    const {wrapper} = setup();
+      expect(wrapper.state('items')).toEqual([]);
+    });
 
-    wrapper.setState({query: 'corncob'});
+    it('filters items based on predicate', () => {
+      const {wrapper} = setup();
 
-    expect(wrapper.state('items')).toEqual([]);
-  });
+      wrapper.setState({query: 'Jake'});
 
-  it('returns items prop if query is empty string', () => {
-    const {
-      wrapper,
-      props: {items},
-    } = setup({initialQuery: 'corncob'});
+      expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
+    });
 
-    wrapper.setState({query: ''});
+    it('filters initial items based on initialQuery', () => {
+      const {wrapper} = setup({initialQuery: 'Jake'});
 
-    expect(wrapper.state('items')).toEqual(items);
-  });
+      expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
+    });
 
-  it('filters items based on predicate', () => {
-    const {wrapper} = setup();
+    it('returns empty array if no matches', () => {
+      const {wrapper} = setup();
 
-    wrapper.setState({query: 'Jake'});
+      wrapper.setState({query: 'corncob'});
 
-    expect(wrapper.state('items')).toEqual([{name: 'Jake Bullock'}]);
-  });
+      expect(wrapper.state('items')).toEqual([]);
+    });
 
-  it('does not call Searchable.filter if query is empty', () => {
-    const {wrapper} = setup();
+    it('does not call Searchable.filter if query is empty', () => {
+      const {wrapper} = setup();
 
-    // Mock Searchable.filter
-    const filter = jest.fn();
-    Searchable.filter = filter;
+      // Mock Searchable.filter
+      const filter = jest.fn();
+      Searchable.filter = filter;
 
-    wrapper.setState({query: ''});
+      wrapper.setState({query: ''});
 
-    expect(filter).not.toHaveBeenCalled();
+      expect(filter).not.toHaveBeenCalled();
+    });
   });
 
   describe('handleChange', () => {
