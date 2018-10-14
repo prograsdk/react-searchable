@@ -6,6 +6,19 @@
   "repository": "https://github.com/prograsdk/react-searchable",
   "author": "Emil Bækdahl <emilsbaekdahl@gmail.com>",
   "license": "MIT",
+  "description": "Simple collection search for React based on the render prop pattern",
+  "keywords": [
+    "react",
+    "search",
+    "filter",
+    "filtering",
+    "component",
+    "render",
+    "prop",
+    "children",
+    "render-props",
+    "searchable"
+  ],
   "peerDependencies": {
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
@@ -43,19 +56,9 @@
       "\\.(ts|tsx)$": "ts-jest"
     },
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "src/**/*.{ts,tsx}",
-      "!**/index.ts"
-    ],
+    "collectCoverageFrom": ["src/**/*.{ts,tsx}", "!**/index.ts"],
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   },
   "husky": {
     "hooks": {
