@@ -1,25 +1,30 @@
-version: 2
+version: 2.1
+
 jobs:
   build:
     docker:
-      # specify the version you desire here
-      - image: circleci/node:10.9
+      - image: circleci/node:10.12.0
 
     working_directory: ~/react-searchable
 
     steps:
       - checkout
-
       - restore_cache:
+          name: Restore dependencies
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
-          - v1-dependencies-
-
-      - run: yarn install
-
+            - yarn-packages-{{ checksum "yarn.lock" }}
+            - yarn-packages-
+      - run:
+          name: Install dependencies
+          command: yarn install
       - save_cache:
+          name: Caching dependencies
+          key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-
-      - run: yarn test -u && yarn codecov
+      - run:
+          name: Testing
+          command: yarn test -u
+      - run:
+          name: Uploading code coverage
+          command: yarn codecov
