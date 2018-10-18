@@ -2,6 +2,7 @@
 ![npm](https://img.shields.io/npm/v/react-searchable.svg)
 [![CircleCI](https://circleci.com/gh/prograsdk/react-searchable.svg?style=svg&circle-token=6f7f2fec7ee257f7fb0455c3d3c28a310cdeb55d)](https://circleci.com/gh/prograsdk/react-searchable)
 [![codecov](https://codecov.io/gh/prograsdk/react-searchable/branch/master/graph/badge.svg)](https://codecov.io/gh/prograsdk/react-searchable)
+[![Maintainability](https://api.codeclimate.com/v1/badges/b6c87833b7ac4a944217/maintainability)](https://codeclimate.com/github/prograsdk/react-searchable/maintainability)
 
 > Simple collection search for React based on the function-as-child/render props pattern.
 
