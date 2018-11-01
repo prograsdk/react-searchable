@@ -20,8 +20,8 @@
     "searchable"
   ],
   "peerDependencies": {
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.14",
