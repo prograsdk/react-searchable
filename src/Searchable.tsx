@@ -145,11 +145,7 @@ export default class Searchable<T> extends Component<IProps<T>, IState<T>> {
     const {query} = this.state;
     const {items} = this.props;
 
-    if (items !== prevProps.items) {
-      this.setState({ items });
-    }
-
-    if (query !== prevState.query) {
+    if (query !== prevState.query || items !== prevProps.items) {
       this.filterAndSetState(items, query);
     }
   }
