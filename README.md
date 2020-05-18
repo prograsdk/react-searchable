@@ -1,3 +1,5 @@
+> **Deprecated in favor of [`react-use-search`](https://github.com/prograsdk/react-use-search).**
+
 # react-searchable
 ![npm](https://img.shields.io/npm/v/react-searchable.svg)
 [![CircleCI](https://circleci.com/gh/prograsdk/react-searchable.svg?style=svg&circle-token=6f7f2fec7ee257f7fb0455c3d3c28a310cdeb55d)](https://circleci.com/gh/prograsdk/react-searchable)
